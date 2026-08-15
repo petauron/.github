@@ -1,0 +1,54 @@
+name: Bug Report
+description: Report a reproducible problem in a Petauron project.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report a problem. Please do not include sensitive data.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: Briefly describe the problem.
+      placeholder: Describe what went wrong.
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest set of steps that consistently reproduces the problem.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: What happened instead? Include relevant error output if it is safe to share.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include the project version or commit, operating system, and relevant runtime or browser details.
+      placeholder: |
+        - Project version or commit:
+        - Operating system:
+        - Runtime, browser, or other relevant details:
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add logs, screenshots, links, or other context that may help.
