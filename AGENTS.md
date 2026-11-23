@@ -11,11 +11,11 @@
 ## Petauron 团队：任务工作区与失效引用收尾（MVP）
 
 - 开发完成或交接时，按以下三步清理本任务不再需要的工作区、分支和失效远程跟踪引用；发布与验收继续按原任务跟踪，无需为等待后续阶段保留已无用途的工作区。
-- 工作区：确认没有待保留的未提交内容或其他任务使用后，使用 `git worktree remove` 移除 worktree；Codex 受管工作区使用其归档工具。独立检出先确认没有需保留的独有提交、stash、忽略文件及关联工作区，再删除。可重建的私有依赖和缓存可一起清理，不删除其他工作区引用的共享源。
+- 工作区：确认没有待保留的未提交内容或其他任务使用后，使用 `git worktree remove` 移除 worktree；受管工作区使用对应归档工具。独立检出先确认没有需保留的独有提交、stash、忽略文件及关联工作区，再删除。可重建的私有依赖和缓存可一起清理，不删除其他工作区引用的共享源。
 - 任务分支：确认 PR 已合并到目标分支、本地分支没有超出 PR 合并时最终 head 的提交，且没有其他工作区或任务使用后，删除本地任务分支。Squash 合并以 PR 最终 head 为准；`git branch -d` 不适用时，核实上述条件后可用 `git branch -D`。已合并的远端任务分支按仓库自动删除设置清理；需手动删除时核对当前远端提交、使用情况及保护规则。
 - 失效远程跟踪引用：核对远端和 refspec，先用 `git remote prune origin --dry-run` 预览；全部确认安全时执行 prune，混有不明或需保留项时仅定向清理已确认项，避免特殊 refspec 或 prune-tags 误删标签。普通已完成任务不逐条备份 reflog，也不为其新建 `refs/archive`。
 - 未提交内容、独有资料、仍在使用的工作区、共享 Git 数据和受保护分支继续保留；只在有异常或依赖线索时进一步核查。需要保全独有历史时，可保留相应引用或使用可恢复的 Git 备份；仅导出引用文本不能替代备份。
-- 存量 `refs/archive` 和 `refs/codex` 快照暂不清理，发布标签保留。本规则不自动授权批量整理历史工作区、修改生产、发布或创建定时任务。
+- 存量归档引用与历史快照暂不清理，发布标签保留。本规则不自动授权批量整理历史工作区、修改生产、发布或创建定时任务。
 
 ## Petauron 团队：Release Please 专用 App（petauron-nova）配置（MVP）
 
@@ -23,5 +23,5 @@
 - 正式创建/发布 GitHub Release 与上传制品继续使用默认 `GITHUB_TOKEN`，不扩大 `petauron-nova` 的权限范围。
 - 凭据名称统一为 Actions Variable `RELEASE_APP_ID` 与 Actions Secret `RELEASE_APP_PRIVATE_KEY`：
   - 公开仓库自动继承组织级 `RELEASE_APP_ID` 与 `RELEASE_APP_PRIVATE_KEY`，无需重复配置。
-  - 私有仓库受 GitHub Free 组织计划限制，无法继承组织级 Actions Variable / Secret；新建或新接入 Release Please 的私有仓库必须单独配置仓库级 Variable `RELEASE_APP_ID` 与 Secret `RELEASE_APP_PRIVATE_KEY`。
+  - 未继承组织级凭据的仓库必须单独配置仓库级 Variable `RELEASE_APP_ID` 与 Secret `RELEASE_APP_PRIVATE_KEY`。
 - App 私钥（`.pem`）不得提交进仓库或长期留存在本地目录；加密上传到 GitHub Secret 并核验后应立即删除本地副本。
