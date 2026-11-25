@@ -21,7 +21,7 @@
 
 - 启用 Release Please 的仓库统一使用组织最小权限 GitHub App `petauron-nova`（权限仅限 `contents: write`、`pull_requests: write`、`metadata: read`）创建或更新版本 PR，通过按完整 commit SHA 固定的 `actions/create-github-app-token` 签发短期令牌；不再使用个人 PAT，也不再维护手工 `gh workflow run` 补跑 CI 脚本。
 - 正式创建/发布 GitHub Release 与上传制品继续使用默认 `GITHUB_TOKEN`，不扩大 `petauron-nova` 的权限范围。
-- 凭据名称统一为 Actions Variable `RELEASE_APP_ID` 与 Actions Secret `RELEASE_APP_PRIVATE_KEY`：
-  - 公开仓库自动继承组织级 `RELEASE_APP_ID` 与 `RELEASE_APP_PRIVATE_KEY`，无需重复配置。
-  - 未继承组织级凭据的仓库必须单独配置仓库级 Variable `RELEASE_APP_ID` 与 Secret `RELEASE_APP_PRIVATE_KEY`。
+- 凭据名称统一为 Actions Variable `RELEASE_APP_CLIENT_ID`（供 `actions/create-github-app-token` 的 `client-id` 输入使用，替代已废弃的 `app-id` / `RELEASE_APP_ID`）与 Actions Secret `RELEASE_APP_PRIVATE_KEY`：
+  - 公开仓库自动继承组织级 `RELEASE_APP_CLIENT_ID` 与 `RELEASE_APP_PRIVATE_KEY`，无需重复配置。
+  - 未继承组织级凭据的仓库必须单独配置仓库级 Variable `RELEASE_APP_CLIENT_ID`（尚未迁移的存量仓库可暂保留 `RELEASE_APP_ID`）与 Secret `RELEASE_APP_PRIVATE_KEY`。
 - App 私钥（`.pem`）不得提交进仓库或长期留存在本地目录；加密上传到 GitHub Secret 并核验后应立即删除本地副本。
